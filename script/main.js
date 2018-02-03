@@ -10,8 +10,7 @@ var listControl = {
         }
 
         // 2. cached/created DOM elements for further use
-        listControl.$container = listControl.config.container;
-        
+        listControl.$container = listControl.config.container;        
         listControl.$sections = listControl.$container.find('ul.sections > li');
         
         // section nav
@@ -24,57 +23,69 @@ var listControl = {
             .attr('id', 'item-nav')
             .insertAfter(listControl.$navSection);
         
-        // content
+        // item content
         listControl.$content = $('<p/>')
             .attr('id', 'content')
             .insertAfter(listControl.$itemNav);
 
-        // create the section nav and activate the first section item
-        listControl.buildnavSection(listControl.$sections);
-        listControl.$navSection.find('li:first').click();
+        // create the section nav and select the first section item
+        listControl.buildNavSection(listControl.$sections);
+        listControl.$navSection.find('li:first button').click();
 
-        // hide HTML
+        // hide original HTML
         listControl.$container.find('ul.sections').hide();
 
         // 3. set completed flag
         listControl.initialised = true;
     },
-    'buildnavSection' : function($sections) {
+    'buildNavSection' : function($sections) {
         // sections i.e., first level nav <li>s
         $sections.each(function() {
-            
             var $section = $(this);
+            var $li = $('<li/>');
 
-            // populate the section nav
-            $('<li/>')
-                // create nav text from section (<li>) h2
+            $('<button/>')
+                // create button text from section h2
                 .text($section.find('h2:first').text())
 
-                // append to section nav
-                .appendTo(listControl.$navSection)
-
-                // save reference to original section in the new <li>
+                // save reference to original section
                 .data('section', $section)
 
                 // bind behaviour
-                .click(listControl.showSection);
+                .click(listControl.showSection)
+
+                .appendTo($li);
+
+            // append to ul#section-nav
+            $li.appendTo(listControl.$navSection)
         });
     },
     'buildItemNav' : function($items) {
         // items i.e., second level nav <li>s
         $items.each(function() {
             var $item = $(this);
+            var $li = $('<li/>');
         
-            $('<li>')
+            $('<button/>')
+              // create button text from item h3
               .text($item.find('h3:first').text())
-              .appendTo(listControl.$itemNav)
+
+              // save reference to original item
               .data('item', $item)
-              .click(listControl.showItemContent);
+
+              // bind behaviour
+              .click(listControl.showItemContent)
+              
+              .appendTo($li);
+            
+            // append to ul#item-nav
+            $li.appendTo(listControl.$itemNav)
         });
     },
     'showSection' : function() { 
-        var $li = $(this);
-        var $section = $li.data('section');
+        var $button = $(this);
+        var $li = $button.parent();
+        var $section = $button.data('section'); // set in buildNavSection
         var $items = $section.find('ul li');
 
         listControl.$itemNav.empty();
@@ -82,20 +93,25 @@ var listControl = {
 
         $li.addClass('current').siblings().removeClass('current');
 
+        // create the section items
         listControl.buildItemNav($items);
 
-        listControl.$itemNav.find('li:first').click();
+        // select the first item
+        listControl.$itemNav.find('li:first button').click();
     },
     'showItemContent' : function() { 
-        var $li = $(this);
-        var $item = $li.data('item');
+        var $button = $(this);
+        var $li = $button.parent();
+        var $item = $button.data('item'); // set in buildItemNav
 
         $li.addClass('current').siblings().removeClass('current');
 
+        // update p#content with the item's HTML
         listControl.$content.html($item.html());
     }
 };
 
+// on DOM ready
 $(function () {
     listControl.init();
 });
