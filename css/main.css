@@ -1,0 +1,53 @@
+/* Begin: Reset */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
+form, fieldset, legend, input, textarea, p, blockquote, th, td, figure {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+/* End: Reset */
+
+html {
+	-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box /* not inherited by default */
+}
+*, *:before, *:after {
+	-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit /* apply desired box model to all but allowing local change */
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.js .content {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 1rem 10px 1.5rem;
+}
+
+.js .list-control {
+  display: grid;
+  grid-template-columns: 15% 1fr;
+  padding: 1rem 10px 1.5rem;
+  margin: 1rem auto 1.5rem;
+  width: 90%;
+}
+
+.js .nav-item {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  grid-column: 1;
+  grid-row: 2;
+  justify-content: space-evenly;
+}
+
+.js .nav-section {
+  display: flex;
+  justify-content: space-evenly;
+  grid-column: 2;
+  grid-row: 1;
+}

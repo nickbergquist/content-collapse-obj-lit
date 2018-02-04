@@ -1,7 +1,8 @@
+document.documentElement.className += ' js';
 
 var listControl = {
     'config': {
-        'container' : $('#listControl')
+        'container' : $('.list-control')
     },
     'init': function(config) {
         // 1. enable any custom config object to be merged
@@ -15,25 +16,25 @@ var listControl = {
         
         // section nav
         listControl.$navSection = $('<ul/>')
-            .attr('id', 'section-nav')
+            .attr('class', 'nav-section')
             .prependTo(listControl.$container);
         
         // item nav
         listControl.$itemNav = $('<ul/>')
-            .attr('id', 'item-nav')
+            .attr('class', 'nav-item')
             .insertAfter(listControl.$navSection);
         
         // item content
         listControl.$content = $('<p/>')
-            .attr('id', 'content')
+            .attr('class', 'content')
             .insertAfter(listControl.$itemNav);
 
         // create the section nav and select the first section item
         listControl.buildNavSection(listControl.$sections);
         listControl.$navSection.find('li:first button').click();
 
-        // hide original HTML
-        listControl.$container.find('ul.sections').hide();
+        // remove original HTML
+        listControl.$container.find('ul.sections').remove();
 
         // 3. set completed flag
         listControl.initialised = true;
@@ -56,7 +57,7 @@ var listControl = {
 
                 .appendTo($li);
 
-            // append to ul#section-nav
+            // append to ul.section-nav
             $li.appendTo(listControl.$navSection)
         });
     },
@@ -78,7 +79,7 @@ var listControl = {
               
               .appendTo($li);
             
-            // append to ul#item-nav
+            // append to ul.item-nav
             $li.appendTo(listControl.$itemNav)
         });
     },
@@ -106,7 +107,7 @@ var listControl = {
 
         $li.addClass('current').siblings().removeClass('current');
 
-        // update p#content with the item's HTML
+        // update .content with the item's HTML
         listControl.$content.html($item.html());
     }
 };
