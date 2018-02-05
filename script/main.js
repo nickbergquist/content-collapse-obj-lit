@@ -114,5 +114,8 @@ var listControl = {
 
 // on DOM ready
 $(function () {
+    
     listControl.init();
+
+    //listControl.init({ 'container' : $('.list-alternate') });
 });
