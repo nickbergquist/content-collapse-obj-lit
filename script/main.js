@@ -1,3 +1,4 @@
+//var $ = window.jQuery;
 document.documentElement.className += ' js';
 
 var listControl = {

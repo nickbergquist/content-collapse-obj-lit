@@ -11,6 +11,10 @@ ul {
 
 /* End: Reset */
 
+body {
+  min-width: 320px;
+}
+
 html {
 	-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box /* not inherited by default */
 }
@@ -18,36 +22,71 @@ html {
 	-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit /* apply desired box model to all but allowing local change */
 }
 
+button {
+  width: 100%;
+}
+
 button:hover {
   cursor: pointer;
 }
 
-.js .content {
-  grid-column: 2;
-  grid-row: 2;
-  padding: 1rem 10px 1.5rem;
+.content {
+  padding-bottom: 1.5rem;
+}
+
+.js .current button {
+  color: #00e;
 }
 
 .js .list-control {
-  display: grid;
-  grid-template-columns: 15% 1fr;
   padding: 1rem 10px 1.5rem;
   margin: 1rem auto 1.5rem;
-  width: 90%;
+  max-width: 800px;
 }
 
-.js .nav-item {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  grid-column: 1;
-  grid-row: 2;
-  justify-content: space-evenly;
-}
-
+.js .nav-item,
 .js .nav-section {
   display: flex;
-  justify-content: space-evenly;
-  grid-column: 2;
-  grid-row: 1;
+  flex-direction: row;
+  margin-bottom: .5rem;
+}
+
+.js .nav-item li,
+.js .nav-section li {
+  flex: auto;
+}
+
+@media only screen and (min-width: 480px) {
+  .js .content {
+    grid-column: 2;
+    grid-row: 2;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .js .list-control {
+    display: grid;
+    grid-template-columns: 15% 1fr;
+  }
+
+  .js .nav-item {
+    flex-direction: column;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .js .nav-item li {
+    margin-bottom: .5rem;
+  }
+
+  .js .nav-section {
+    justify-content: space-evenly;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .js .nav-item li,
+  .js .nav-section li {
+    flex: initial;
+  }
 }
