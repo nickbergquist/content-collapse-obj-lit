@@ -9,39 +9,41 @@ document.documentElement.className += ' js';
         'init': function(config) {
             // 1. enable any custom config object to be merged
             if (config && typeof(config) == 'object') {
-                $.extend(listControl.config, config);
+                $.extend(this.config, config);
             }
 
             // 2. cached/created DOM elements for further use
-            listControl.$container = listControl.config.container;        
-            listControl.$sections = listControl.$container.find('ul.sections > li');
+            this.$container = this.config.container;        
+            this.$sections = this.$container.find('ul.sections > li');
             
             // section nav
-            listControl.$navSection = $('<ul/>')
+            this.$navSection = $('<ul/>')
                 .attr('class', 'nav-section')
-                .prependTo(listControl.$container);
+                .prependTo(this.$container);
             
             // item nav
-            listControl.$itemNav = $('<ul/>')
+            this.$itemNav = $('<ul/>')
                 .attr('class', 'nav-item')
-                .insertAfter(listControl.$navSection);
+                .insertAfter(this.$navSection);
             
             // item content
-            listControl.$content = $('<p/>')
+            this.$content = $('<p/>')
                 .attr('class', 'content')
-                .insertAfter(listControl.$itemNav);
+                .insertAfter(this.$itemNav);
 
             // create the section nav and select the first section item
-            listControl.buildNavSection(listControl.$sections);
-            listControl.$navSection.find('li:first button').click();
+            this.buildNavSection(this.$sections);
+            this.$navSection.find('li:first button').click();
 
             // remove original HTML
-            listControl.$container.find('ul.sections').remove();
+            this.$container.find('ul.sections').remove();
 
             // 3. set completed flag
-            listControl.initialised = true;
+            this.initialised = true;
         },
         'buildNavSection' : function($sections) {
+            var that = this;
+            
             // sections i.e., first level nav <li>s
             $sections.each(function() {
                 var $section = $(this);
@@ -55,15 +57,17 @@ document.documentElement.className += ' js';
                     .data('section', $section)
 
                     // bind behaviour
-                    .click(listControl.showSection)
+                    .click(that.showSection)
 
                     .appendTo($li);
 
                 // append to ul.section-nav
-                $li.appendTo(listControl.$navSection)
+                $li.appendTo(that.$navSection)
             });
         },
-        'buildItemNav' : function($items) {
+        'buildNavItem' : function($items) {
+            var that = this;
+
             // items i.e., second level nav <li>s
             $items.each(function() {
                 var $item = $(this);
@@ -77,15 +81,16 @@ document.documentElement.className += ' js';
                 .data('item', $item)
 
                 // bind behaviour
-                .click(listControl.showItemContent)
+                .click(that.showItemContent)
                 
                 .appendTo($li);
                 
                 // append to ul.item-nav
-                $li.appendTo(listControl.$itemNav)
+                $li.appendTo(that.$itemNav)
             });
         },
         'showSection' : function() { 
+            var that = listControl;
             var $button = $(this);
             var $li = $button.parent();
             var $section = $button.data('section'); // set in buildNavSection
@@ -97,20 +102,21 @@ document.documentElement.className += ' js';
             $li.addClass('current').siblings().removeClass('current');
 
             // create the section items
-            listControl.buildItemNav($items);
+            that.buildNavItem($items);
 
             // select the first item
-            listControl.$itemNav.find('li:first button').click();
+            that.$itemNav.find('li:first button').click();
         },
         'showItemContent' : function() { 
+            var that = listControl;
             var $button = $(this);
             var $li = $button.parent();
-            var $item = $button.data('item'); // set in buildItemNav
+            var $item = $button.data('item'); // set in buildNavItem
 
             $li.addClass('current').siblings().removeClass('current');
 
             // update .content with the item's HTML
-            listControl.$content.html($item.html());
+            that.$content.html($item.html());
         }
     };
 
