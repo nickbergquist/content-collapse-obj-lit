@@ -27,7 +27,7 @@ document.documentElement.className += ' js';
                 .insertAfter(this.$navSection);
             
             // item content
-            this.$content = $('<p/>')
+            this.$content = $('<section/>')
                 .attr('class', 'content')
                 .insertAfter(this.$itemNav);
 
